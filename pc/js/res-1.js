@@ -44,18 +44,18 @@ $(document).ready(function () {
 //  }
 //	
 //});
-document.addEventListener('DOMContentLoaded', function() {
+/* document.addEventListener('DOMContentLoaded', function() {
   // You get the current window width
   var width = window.innerWidth;
 
   //Than you define the AOS settings for different widths
-  if (width <= 600) { // For example, this can be for mobile devices
+  if (width < 1200) { // For example, this can be for mobile devices
     AOS.init({
       disable: function() {
             return window.innerWidth < width;
         }
     });
-  } else if (width > 1200 && width <= 1900) { // And you make a condition for tablets too
+  } else if (width > 1200 || width < 1900) { // And you make a condition for tablets too
     AOS.init({
       offset: -1600,
       duration: 2000,
@@ -65,8 +65,21 @@ document.addEventListener('DOMContentLoaded', function() {
     AOS.init({
       duration: 1500
     });
+  }  
+
+	
+}); */
+  AOS.init({
+
+  disable: function () {
+    var maxWidth = 1600;
+    return window.innerWidth < maxWidth;
   }
+	
 });
+  
+  
+
 
 var swiper = new Swiper(".mySwiper", {
       direction: "vertical",

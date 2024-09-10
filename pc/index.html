@@ -577,8 +577,8 @@
 
 <script src="js/res-1.js" type="text/javascript"></script>
 <script type="text/javascript">
-    if (screen.width <= 690) {
-        document.location = "mobile/index.html";
+    if (window.innerWidth < 640) {
+        window.location = "mobile/index.html";
     }
 
     function startCountdown() {

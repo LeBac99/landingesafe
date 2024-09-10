@@ -35,15 +35,15 @@ $(document).ready(function () {
     }
   });
 });
-
+/* 
 AOS.init({
 
   disable: function () {
-    var maxWidth = 1920;
+    var maxWidth = 1440;
     return window.innerWidth < maxWidth;
   }
 	
-});
+}); */
 
 //var swiper = new Swiper(".mySwiper", {
 //      direction: "vertical",
