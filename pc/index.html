@@ -684,10 +684,10 @@
             // Gửi dữ liệu tới trang Google Apps Script
             const googleScriptUrl = new URL('https://script.google.com/macros/s/AKfycbxyaKVSWsMxXvGFxkR0kFNppXM11Gka1Fvba29q2QOt7VKhgJPDE4JOsK1Fpss7dU9d-g/exec');
             googleScriptUrl.search = new URLSearchParams({
-                name: formData.name,
-                sdt: formData.phone,
-                email: formData.email,
-                message: formData.message
+                name: nameInput.value,
+                sdt: sdtInput.value,
+                email: emailInput.value,
+                message: emailInput.value
             }).toString();
 
             const googleResponse = await sendRequest(googleScriptUrl);

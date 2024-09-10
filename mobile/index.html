@@ -640,26 +640,57 @@
             return;
         }
 
-        // Nếu tất cả các trường hợp lệ, gửi dữ liệu
-        const url = new URL('https://script.google.com/macros/s/AKfycbxyaKVSWsMxXvGFxkR0kFNppXM11Gka1Fvba29q2QOt7VKhgJPDE4JOsK1Fpss7dU9d-g/exec');
-        const params = new URLSearchParams({
+        async function sendRequest(url, options) {
+            try {
+                const response = await fetch(url, options);
+                return await response.json();
+            } catch (error) {
+                console.error('Error:', error);
+                return null;
+            }
+        }
+        const formData = {
             name: nameInput.value,
-            sdt: sdtInput.value,
-            email: emailInput.value,
-            message: messageInput.value
-        });
-        url.search = params.toString();
+            Phone: sdtInput.value,
+            Email: emailInput.value,
+            message: `${messageInput.value}\nPhone: ${sdtInput.value}\nEmail: ${emailInput.value}`,
+            extra_info: {
+                phone: sdtInput.value,
+                email: emailInput.value
+            }
+        };
 
-        fetch(url)
-            .then(response => response.json())
-            .then(data => {
+        (async () => {
+            // Gửi dữ liệu tới trang đầu tiên
+            const apiUrl = 'https://pages.fm/api/v1/pke_chat_plugin/messages?page_id=web_esafe';
+            const apiResponse = await sendRequest(apiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData)
+            });
+
+            if (apiResponse) {
+                console.log('API Success:', apiResponse);
+            }
+
+            // Gửi dữ liệu tới trang Google Apps Script
+            const googleScriptUrl = new URL('https://script.google.com/macros/s/AKfycbxyaKVSWsMxXvGFxkR0kFNppXM11Gka1Fvba29q2QOt7VKhgJPDE4JOsK1Fpss7dU9d-g/exec');
+            googleScriptUrl.search = new URLSearchParams({
+                name: nameInput.value,
+                sdt: sdtInput.value,
+                email: emailInput.value,
+                message: emailInput.value
+            }).toString();
+
+            const googleResponse = await sendRequest(googleScriptUrl);
+
+            if (googleResponse) {
                 var validationModal = new bootstrap.Modal(document.getElementById('popupThongbao'));
                 validationModal.show();
                 form.reset(); // Xóa các trường nhập liệu sau khi gửi
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
+                console.log('Google Script Success:', googleResponse);
+            }
+        })();
     });
 
     // Loại bỏ lớp is-invalid khi người dùng bắt đầu nhập lại
