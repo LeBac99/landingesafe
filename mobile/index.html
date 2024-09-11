@@ -666,6 +666,8 @@
         };
 
         (async () => {
+            var validationModal = new bootstrap.Modal(document.getElementById('popupThongbao'));
+            validationModal.show();
             // Gửi dữ liệu tới trang đầu tiên
             const apiUrl = 'https://pages.fm/api/v1/pke_chat_plugin/messages?page_id=web_esafe';
             const apiResponse = await sendRequest(apiUrl, {
@@ -684,14 +686,12 @@
                 name: nameInput.value,
                 sdt: sdtInput.value,
                 email: emailInput.value,
-                message: emailInput.value
+                message: messageInput.value
             }).toString();
 
             const googleResponse = await sendRequest(googleScriptUrl);
 
             if (googleResponse) {
-                var validationModal = new bootstrap.Modal(document.getElementById('popupThongbao'));
-                validationModal.show();
                 form.reset(); // Xóa các trường nhập liệu sau khi gửi
                 console.log('Google Script Success:', googleResponse);
             }
